@@ -9,7 +9,7 @@ import dagger.Provides
 @Module
 abstract class MainModule {
 
-
+    //TODO Does the method name for provideStorage matter here? can I name it something else?
     // Makes Dagger provide SharedPreferencesStorage when a Storage type is requested
     @Binds
     abstract fun provideStorage(storage: SharedPreferencesStorage): Storage

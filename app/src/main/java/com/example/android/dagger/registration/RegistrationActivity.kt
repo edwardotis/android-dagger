@@ -21,6 +21,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android.dagger.MyApplication
 import com.example.android.dagger.R
+import com.example.android.dagger.di.RegistrationComponent
 import com.example.android.dagger.main.MainActivity
 import com.example.android.dagger.registration.enterdetails.EnterDetailsFragment
 import com.example.android.dagger.registration.termsandconditions.TermsAndConditionsFragment
@@ -31,10 +32,15 @@ class RegistrationActivity : AppCompatActivity() {
     @Inject
     lateinit var registrationViewModel: RegistrationViewModel
 
+    // Stores an instance of RegistrationComponent so that its Fragments can access it
+    lateinit var registrationComponent: RegistrationComponent
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Grabs instance of the application graph
-        // and populates @Inject fields with objects from the graph
-        (application as MyApplication).edwardAppComponent.inject(this)
+
+        // Creates an instance of Registration component by grabbing the factory from the app graph
+        registrationComponent = (application as MyApplication).edwardAppComponent.registrationComponent().create()
+        // Injects this activity to the just created registration component
+        registrationComponent.inject(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)

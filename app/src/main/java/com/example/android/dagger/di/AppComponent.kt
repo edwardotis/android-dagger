@@ -17,6 +17,7 @@ interface MyAppComponent {
 
     // Expose RegistrationComponent factory from the graph
     fun registrationComponent(): RegistrationComponent.Factory
+    fun loginComponent(): LoginComponent.Factory
 
 
     // Factory to create instances of the AppComponent

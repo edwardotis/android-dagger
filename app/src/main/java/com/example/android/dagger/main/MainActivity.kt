@@ -23,19 +23,20 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android.dagger.MyApplication
 import com.example.android.dagger.R
+import com.example.android.dagger.di.LoggedInUserScope
 import com.example.android.dagger.login.LoginActivity
 import com.example.android.dagger.registration.RegistrationActivity
 import com.example.android.dagger.settings.SettingsActivity
-import com.example.android.dagger.user.UserManager
 import javax.inject.Inject
 
+@LoggedInUserScope
 class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mainViewModel: MainViewModel
 
-    @Inject
-    lateinit var userManager: UserManager
+//    @Inject
+//    lateinit var userManager: UserManager
 
 
     /**
@@ -46,7 +47,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Grabs instance of the application graph
         // and populates @Inject fields with objects from the graph
-        (application as MyApplication).edwardAppComponent.myInject(this)
+//        (application as MyApplication).edwardAppComponent.userComponent().create().inject(this)
+
+        // Gets the userManager from the application graph to obtain the instance
+        // of UserComponent and gets this Activity injected
+        val userManager = (application as MyApplication).edwardAppComponent.userManager()
+//        userManager.userComponent!!.inject(this)
+
+
         super.onCreate(savedInstanceState)
 
 //        val userManager = (application as MyApplication).userManager
@@ -60,7 +68,10 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             setContentView(R.layout.activity_main)
-
+            // Gets the userManager from the application graph to obtain the instance
+            // of UserComponent and gets this Activity injected
+            val userManager = (application as MyApplication).edwardAppComponent.userManager()
+            userManager.userComponent!!.inject(this)
 //            mainViewModel = MainViewModel(userManager.userDataRepository!!)
             setupViews()
         }

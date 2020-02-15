@@ -16,12 +16,14 @@
 
 package com.example.android.dagger.user
 
+import com.example.android.dagger.di.LoggedInUserScope
 import javax.inject.Inject
 import kotlin.random.Random
 
 /**
  * UserDataRepository contains user-specific data such as username and unread notifications.
  */
+@LoggedInUserScope
 class UserDataRepository @Inject constructor(private val userManager: UserManager) {
 
     val username: String
